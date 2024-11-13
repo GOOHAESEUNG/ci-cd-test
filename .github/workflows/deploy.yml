@@ -60,8 +60,8 @@ jobs:
 #          echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
 #          chmod 600 ~/.ssh/id_rsa
 #
-#      - name: Add server to known hosts
-#        run: ssh-keyscan -H 52.78.175.86 >> ~/.ssh/known_hosts
+      - name: Add server to known hosts
+        run: ssh-keyscan -H 52.78.175.86 >> ~/.ssh/known_hosts
 
       - name: Deploy to server
         env:
