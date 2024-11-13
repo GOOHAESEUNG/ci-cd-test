@@ -9,8 +9,8 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   AWS_S3_BUCKET: buddytests3
-  AWS_CODE_DEPLOY_APPLICATION: cicid-test-CD
-  AWS_CODE_DEPLOY_GROUP: cicd-test-CD-group
+  AWS_CODE_DEPLOY_APPLICATION: cicd-test-CD
+  AWS_CODE_DEPLOY_GROUP: cicid-test-CD-group
   DB_USERNAME: ${{ secrets.DB_USERNAME }}
   DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
   SSL_KEYSTORE_PASSWORD: ${{ secrets.SSL_KEYSTORE_PASSWORD }}
