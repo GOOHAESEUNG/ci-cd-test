@@ -55,6 +55,11 @@ jobs:
       - name: Create .ssh directory
         run: mkdir -p ~/.ssh
 
+      - name: Add SSH key
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
       - name: Add server to known hosts
         run: ssh-keyscan -H 52.78.175.86 >> ~/.ssh/known_hosts
 
@@ -67,8 +72,8 @@ jobs:
           KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
-          scp -r ./build/libs/buddy-0.0.1-SNAPSHOT.jar ubuntu@52.78.175.86:/home/ubuntu/
-          ssh ubuntu@52.78.175.86 "
+          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -r ./build/libs/buddy-0.0.1-SNAPSHOT.jar ubuntu@52.78.175.86:/home/ubuntu/
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@52.78.175.86 "
             export DB_USERNAME=${{ secrets.DB_USERNAME }};
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }};
             export SSL_KEYSTORE_PASSWORD=${{ secrets.SSL_KEYSTORE_PASSWORD }};
