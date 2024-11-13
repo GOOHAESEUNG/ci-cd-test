@@ -52,6 +52,9 @@ jobs:
       - name: S3에 업로드
         run: aws deploy push --application-name ${{ env.AWS_CODE_DEPLOY_APPLICATION }} --ignore-hidden-files --s3-location s3://buddytests3/cicdtest/$GITHUB_SHA.zip --source .
 
+      - name: Add server to known hosts
+        run: ssh-keyscan -H 52.78.175.86 >> ~/.ssh/known_hosts
+
       - name: Deploy to server
         env:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
@@ -71,3 +74,4 @@ jobs:
             export JWT_SECRET=${{ secrets.JWT_SECRET }};
             nohup java -jar /home/ubuntu/buddy-0.0.1-SNAPSHOT.jar > /home/ubuntu/app.log 2>&1 &
           "
+      
