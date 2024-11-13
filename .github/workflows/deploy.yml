@@ -65,22 +65,13 @@ jobs:
           KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
-          # 환경 변수 파일과 JAR 파일을 서버에 복사
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -r ./build/libs/buddy-0.0.1-SNAPSHOT.jar ubuntu@52.78.175.86:/home/ubuntu/
-
-          # 환경 변수 파일 생성
-          echo "export DB_USERNAME=${{ secrets.DB_USERNAME }}" > env_variables.sh
-          echo "export DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> env_variables.sh
-          echo "export SSL_KEYSTORE_PASSWORD=${{ secrets.SSL_KEYSTORE_PASSWORD }}" >> env_variables.sh
-          echo "export KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> env_variables.sh
-          echo "export KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }}" >> env_variables.sh
-          echo "export JWT_SECRET=${{ secrets.JWT_SECRET }}" >> env_variables.sh
-
-          # 환경 변수 파일을 서버로 전송
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no env_variables.sh ubuntu@52.78.175.86:/home/ubuntu/
-
-          # 서버에서 애플리케이션 실행
+          # SSH 명령어로 직접 환경 변수 설정 후 실행
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@52.78.175.86 "
-            source /home/ubuntu/env_variables.sh;
+            export DB_USERNAME=${{ secrets.DB_USERNAME }};
+            export DB_PASSWORD=${{ secrets.DB_PASSWORD }};
+            export SSL_KEYSTORE_PASSWORD=${{ secrets.SSL_KEYSTORE_PASSWORD }};
+            export KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }};
+            export KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }};
+            export JWT_SECRET=${{ secrets.JWT_SECRET }};
             nohup java -jar /home/ubuntu/buddy-0.0.1-SNAPSHOT.jar > /home/ubuntu/app.log 2>&1 &
           "
