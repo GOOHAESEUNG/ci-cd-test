@@ -1,31 +1,32 @@
 package groom.buddy.character;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import groom.buddy.member.Member;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
 @Table(name = "characters")
 public class Character {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private CharacterType characterType; // 캐릭터 타입
+    private CharacterType characterType;
 
-    private String characterName; // 캐릭터 이름
+    private String characterName;
 
-    private int level = 1; // 기본 레벨
+    private int level = 1;
 
     @OneToOne
     @JoinColumn(name = "member_id")
-    @JsonIgnore  // 순환 참조 방지
+    @JsonBackReference // 순환 참조 방지
+    @ToString.Exclude // 순환 참조 방지
     private Member member;
-
 
     public enum CharacterType {
         CHICK,

@@ -65,7 +65,6 @@ jobs:
           KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
-          # SSH 명령어로 직접 환경 변수 설정 후 실행
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@52.78.175.86 "
             export DB_USERNAME=${{ secrets.DB_USERNAME }};
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }};
