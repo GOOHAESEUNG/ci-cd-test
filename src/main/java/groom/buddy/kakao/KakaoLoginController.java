@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @RestController
@@ -53,7 +55,12 @@ public class KakaoLoginController {
 
             // 리다이렉트 URL 설정 (query parameters 포함)
             String redirectUrl = String.format("http://localhost:5173/auth?token=%s&refreshToken=%s&nickname=%s&hasCharacter=%b&kakaoId=%s",
-                    jwtAccessToken, jwtRefreshToken, member.getNickname(), hasCharacter, member.getKakaoId().toString());
+                    jwtAccessToken,
+                    jwtRefreshToken,
+                    URLEncoder.encode(member.getNickname(), StandardCharsets.UTF_8.toString()),
+                    hasCharacter,
+                    URLEncoder.encode(member.getKakaoId().toString(), StandardCharsets.UTF_8.toString())
+            );
             RedirectView redirectView = new RedirectView();
             redirectView.setUrl(redirectUrl);
             return redirectView;
